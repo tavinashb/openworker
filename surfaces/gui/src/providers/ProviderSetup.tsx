@@ -490,7 +490,7 @@ export function ProviderForm({
           No key yet?{" "}
           <button
             className="text-muted underline decoration-line underline-offset-2 hover:text-ink"
-            onClick={() => openExternal(KEY_HELP[sel].url)}
+            onClick={() => void openExternal(KEY_HELP[sel].url)}
           >
             Create one at {KEY_HELP[sel].label} ↗
           </button>{" "}
@@ -502,7 +502,7 @@ export function ProviderForm({
           No API key needed — Ollama runs models on this computer.{" "}
           <button
             className="text-muted underline decoration-line underline-offset-2 hover:text-ink"
-            onClick={() => openExternal("https://ollama.com/download")}
+            onClick={() => void openExternal("https://ollama.com/download")}
           >
             Install Ollama ↗
           </button>

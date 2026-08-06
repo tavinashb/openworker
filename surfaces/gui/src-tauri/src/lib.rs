@@ -238,6 +238,28 @@ async fn pick_folder(app: tauri::AppHandle) -> Option<String> {
 }
 
 #[tauri::command]
+fn open_external(url: String) -> bool {
+    let mut cmd = match std::env::consts::OS {
+        "windows" => {
+            let mut c = Command::new("cmd");
+            c.args(["/C", "start", "", &url]);
+            c
+        }
+        "macos" => {
+            let mut c = Command::new("open");
+            c.arg(&url);
+            c
+        }
+        _ => {
+            let mut c = Command::new("xdg-open");
+            c.arg(&url);
+            c
+        }
+    };
+    cmd.spawn().is_ok()
+}
+
+#[tauri::command]
 fn get_autostart(app: tauri::AppHandle) -> bool {
     app.autolaunch().is_enabled().unwrap_or(false)
 }
@@ -604,6 +626,7 @@ pub fn run() {
         ))
         .invoke_handler(tauri::generate_handler![
             pick_folder,
+            open_external,
             get_autostart,
             set_autostart,
             get_keep_awake,
